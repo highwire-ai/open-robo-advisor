@@ -1,7 +1,7 @@
 [project]
 name = "open-robo-advisor"
 version = "0.1.0"
-description = ""
+description = "Open Robo-Advisor is an open source robo-advisor engine written in Python."
 authors = [
     {name = "Chris Riccomini", email = "criccomini@apache.org"},
 ]
@@ -17,8 +17,16 @@ Homepage = ""
 [tool.pdm.dev-dependencies]
 dev = [
     "mypy==0.931",
+    "pytest>=7.0.1",
+    "flake8==4.0.1",
 ]
 
 [build-system]
 requires = ["pdm-pep517"]
 build-backend = "pdm.pep517.api"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+pythonpath = ["src"]
