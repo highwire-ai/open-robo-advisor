@@ -1,6 +1,6 @@
 from decimal import Decimal
 from openroboadvisor.ledger.account import Account, AccountType
-from openroboadvisor.ledger.asset import USD
+from openroboadvisor.ledger.asset import Currency
 
 def test_single_account() -> None:
     account = Account("My Fidelity Brokerage", AccountType.BROKERAGE)
@@ -15,5 +15,5 @@ def test_single_account() -> None:
     assert fees_subaccount == account.subaccount("Fees")
     assert dividends_subaccount == account.subaccount("Dividends")
 
-    settled_subaccount.inc(10, USD())
-    assert 10 == settled_subaccount.assets[USD()]
+    settled_subaccount.inc(10, Currency('USD'))
+    assert 10 == settled_subaccount.assets[Currency('USD')]

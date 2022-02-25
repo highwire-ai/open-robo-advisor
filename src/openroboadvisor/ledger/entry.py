@@ -18,13 +18,13 @@ class Entry:
 class OpenAccount(Entry):
     def __init__(
         self,
-        entry_date: date,
         account_id: str,
         account_type: AccountType,
+        entry_date: date,
     ) -> None:
-        self.entry_date = entry_date
         self.account_id = account_id
         self.account_type = account_type
+        self.entry_date = entry_date
 
     def validate(self, accounts: dict[str, Account]) -> None:
         assert self.account_id not in accounts, (
@@ -36,15 +36,15 @@ class OpenAccount(Entry):
 class CloseAccount(Entry):
     def __init__(
         self,
-        entry_date: date,
         account_id: str,
+        entry_date: date,
     ) -> None:
-        self.entry_date = entry_date
         self.account_id = account_id
+        self.entry_date = entry_date
 
     def validate(self, accounts: dict[str, Account]) -> None:
         # TODO validate account is not already closed
-        pass
+        raise NotImplementedError
 
 
 class TransactionLeg:
@@ -90,7 +90,6 @@ class Transaction(Entry):
             quantity, asset_type = leg.cost if leg.cost else (leg.quantity, leg.asset_type)
             current_quantity = current_quantities.get(asset_type, 0)
             current_quantities[asset_type] = current_quantity + quantity
-            print(current_quantities)
 
         for asset_type, quantity in current_quantities.items():
             assert quantity == 0, (
