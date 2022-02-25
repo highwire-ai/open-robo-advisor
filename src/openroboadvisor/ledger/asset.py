@@ -19,7 +19,7 @@ class AssetType:
         return hash(self.symbol)
 
     def __repr__(self) -> str:
-        return repr(self.symbol)
+        return f'{type(self).__name__}({repr(self.symbol)})'
 
 
 Price = Tuple[Decimal, AssetType]
@@ -27,15 +27,6 @@ Price = Tuple[Decimal, AssetType]
 
 class Currency(AssetType):
     pass
-
-
-class USD(Currency):
-    def __init__(
-        self,
-        symbol: str = 'USD'
-    ) -> None:
-        super().__init__(symbol)
-
 
 class Security(AssetType):
     def __init__(
@@ -59,4 +50,7 @@ class Security(AssetType):
         ))
 
     def __repr__(self) -> str:
-        return f"{super().__repr__()}[lot={repr(self.lot)}]"
+        if self.lot:
+            return f"{super().__repr__()}[lot={repr(self.lot)}]"
+        else:
+            return super().__repr__()

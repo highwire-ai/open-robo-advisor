@@ -32,7 +32,7 @@ class Ledger:
                 )
 
     def get_account(self, account_id: str) -> Account | None:
-        return self.accounts.extend(account_id)
+        return self.accounts.get(account_id)
 
     def handle_open_account(self, entry: Entry) -> None:
         open_account_entry = cast(OpenAccount, entry)

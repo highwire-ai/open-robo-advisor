@@ -1,7 +1,7 @@
 from datetime import date
 from decimal import Decimal
 from openroboadvisor.ledger import Ledger
-from openroboadvisor.ledger.asset import USD, Security
+from openroboadvisor.ledger.asset import Currency, Security
 from openroboadvisor.ledger.entry import OpenAccount, Transaction, TransactionLeg
 from openroboadvisor.ledger.account import AccountType
 
@@ -16,28 +16,28 @@ def test_basic_ledger() -> None:
     ledger.record(
         # Open external checking
         OpenAccount(
-            entry_date=date(2022, 1, 3),
             account_id=bank_account_id,
             account_type=AccountType.CHECKING,
+            entry_date=date(2022, 1, 3),
         ),
         # Open internal Fidelity brokerage
         OpenAccount(
-            entry_date=date(2022, 1, 3),
             account_id=brokerage_account_id,
             account_type=AccountType.BROKERAGE,
+            entry_date=date(2022, 1, 3),
         ),
         # Deposit money into brokerage
         Transaction(
             TransactionLeg(
                 account_id=bank_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=-2000,
             ),
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=2000
             ),
             entry_date=date(2022, 1, 3),
@@ -47,13 +47,13 @@ def test_basic_ledger() -> None:
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=-2000,
             ),
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='settled',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=2000,
             ),
             entry_date=date(2022, 1, 4),
@@ -63,13 +63,13 @@ def test_basic_ledger() -> None:
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('-1009.95'),
             ),
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='fees',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('9.95'),
             ),
             TransactionLeg(
@@ -77,7 +77,7 @@ def test_basic_ledger() -> None:
                 subaccount_id='pending',
                 asset_type=Security('SPY'),
                 quantity=Decimal('2.0933'),
-                cost=(Decimal(1000), USD())
+                cost=(Decimal(1000), Currency('USD'))
             ),
             entry_date=date(2022, 1, 5),
         ),
@@ -86,13 +86,13 @@ def test_basic_ledger() -> None:
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='settled',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('-1009.95'),
             ),
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('1009.95'),
             ),
             TransactionLeg(
@@ -114,13 +114,13 @@ def test_basic_ledger() -> None:
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('1990.05'),
             ),
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='fees',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('9.95'),
             ),
             TransactionLeg(
@@ -128,7 +128,7 @@ def test_basic_ledger() -> None:
                 subaccount_id='pending',
                 asset_type=Security('SPY'),
                 quantity=Decimal('-2.0933'),
-                cost=(Decimal(-2000), USD())
+                cost=(Decimal(-2000), Currency('USD'))
             ),
             entry_date=date(2022, 1, 7),
         ),
@@ -137,13 +137,13 @@ def test_basic_ledger() -> None:
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='pending',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('-1990.05'),
             ),
             TransactionLeg(
                 account_id=brokerage_account_id,
                 subaccount_id='settled',
-                asset_type=USD(),
+                asset_type=Currency('USD'),
                 quantity=Decimal('1990.05'),
             ),
             TransactionLeg(
