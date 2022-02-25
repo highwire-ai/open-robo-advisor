@@ -31,6 +31,14 @@ class Subaccount:
         self.assets[asset_type] = old_asset_quantity + quantity
         return old_asset_quantity
 
+    def get_assets(
+        self,
+        types: set[AssetType] = {Currency, Security}
+    ) -> dict[AssetType, Decimal]:
+        return {
+            k: v for k, v in self.assets.items() if type(k) in types
+        }
+
 
 class Account:
     def __init__(
