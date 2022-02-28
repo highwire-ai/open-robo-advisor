@@ -37,6 +37,9 @@ class Security(AssetType):
         super().__init__(symbol)
         self.lot = lot
 
+    def without_lot(self) -> 'Security':
+        return Security(self.symbol)
+
     def __eq__(self, another):
         return (
             super().__eq__(another) and
