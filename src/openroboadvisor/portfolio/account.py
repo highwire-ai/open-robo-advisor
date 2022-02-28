@@ -12,7 +12,7 @@ SETTLED_SUBACCOUNT_ID = 'settled'
 FEES_SUBACCOUNT_ID = 'fees'
 
 
-class Balance:
+class Balances:
     def __init__(
         self,
         subaccounts: dict[str, Subaccount],
@@ -23,10 +23,11 @@ class Balance:
         self.subaccounts = subaccounts
         self.include_pending = include_pending
         self.include_lots = include_lots
-        self.cash: dict[Currency, Decimal] = self.calculate_asset_balance(Currency)
-        self.securities: dict[Security, Decimal] = self.calculate_asset_balance(Security)
+        self.cash: dict[Currency, Decimal] = self.get_asset_quantities(Currency)
+        self.securities: dict[Security, Decimal] = self.get_asset_quantities(Security)
 
-    def calculate_asset_balance(self, asset_type: AssetType) -> dict[Currency, Decimal]:
+    # TODO this method should probably be templated to 'T extends AssetType'
+    def get_asset_quantities(self, asset_type: AssetType) -> dict[AssetType, Decimal]:
         settled = self.subaccounts[SETTLED_SUBACCOUNT_ID].get_assets({asset_type})
 
         if self.include_pending:
@@ -38,6 +39,27 @@ class Balance:
                 settled[pending_asset] = total_quantity
 
         return settled
+
+    def get_asset_amounts(self, asset_type: AssetType, quotes: dict[AssetType, Decimal]) -> dict[AssetType, Decimal]:
+        asset_quantities = self.get_asset_quantities(asset_type)
+        asset_amounts: dict[AssetType, Decmal] = {}
+
+        for asset_type, quantity in asset_quantities.items():
+            quote = quotes.get(asset_type)
+            # TODO assert quote
+            asset_amounts[asset_type] = quote * quantity
+
+        return asset_amounts
+
+    def total(self, quotes: dict[AssetType, Decimal]) -> Decimal:
+        total_balance = Decimal(0)
+
+        for asset, quantity in (self.cash | self.securities).items():
+            quote = quotes.get(asset.without_lot()) if isinstance(asset, Security) else quotes.get(asset)
+            assert quote, f"Unable to find quote (asset={asset})"
+            total_balance += quote * quantity
+
+        return total_balance
 
 
 class Account:
@@ -53,9 +75,9 @@ class Account:
         self,
         include_pending: bool = True,
         include_lots: bool = False,
-    ) -> Balance:
+    ) -> Balances:
         ledger_account = self.ledger.get_account(self.account_id)
-        return Balance(
+        return Balances(
             ledger_account.subaccounts,
             include_pending,
             include_lots,

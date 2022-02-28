@@ -22,9 +22,11 @@ class OpenAccount(Entry):
         account_type: AccountType,
         entry_date: date,
     ) -> None:
+        super().__init__(
+            entry_date=entry_date
+        )
         self.account_id = account_id
         self.account_type = account_type
-        self.entry_date = entry_date
 
     def validate(self, accounts: dict[str, Account]) -> None:
         assert self.account_id not in accounts, (
@@ -39,8 +41,10 @@ class CloseAccount(Entry):
         account_id: str,
         entry_date: date,
     ) -> None:
+        super().__init__(
+            entry_date=entry_date
+        )
         self.account_id = account_id
-        self.entry_date = entry_date
 
     def validate(self, accounts: dict[str, Account]) -> None:
         # TODO validate account is not already closed
@@ -69,7 +73,9 @@ class Transaction(Entry):
         *legs: TransactionLeg,
         entry_date: date,
     ) -> None:
-        self.entry_date = entry_date
+        super().__init__(
+            entry_date=entry_date
+        )
         self.legs: List[TransactionLeg] = legs
 
     def validate(self, accounts: dict[str, Account]) -> None:

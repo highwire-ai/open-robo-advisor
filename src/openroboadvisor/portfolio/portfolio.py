@@ -31,9 +31,12 @@ class Portfolio:
         )
 
         account = Account(account_id, self.ledger)
-        self.accounts[account_id] = account
+
+        # Add all public accounts to the accounts dict.
+        if not account_id.startswith('__'):
+            self.accounts[account_id] = account
+
         return account
 
     def get_account(self, account_id: str) -> Account | None:
-        # Filter all __accounts to hide internal accounts.
-        return None if account_id.startswith('__') else self.get(account_id)
+        return self.get(account_id)
