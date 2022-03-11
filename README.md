@@ -2,6 +2,12 @@
 
 Open Robo-Advisor (ORA) is a flexible robo-advisor library written in Python.
 
+* Works with ETFs, mutual funds, and individual stock
+* Asset targeting (e.g. 10% USD, 20% VXUS, 70% VTI)
+* Asset class-based targeting (e.g. 10% cash, 20% foreign stock, 70% domestic stock)
+* Multi-currency support
+* Full transaction history backed by an in-memory double-entry bookkeeping ledger
+
 ## Quickstart
 
 Start by creating a portfolio and adding an account to it.
