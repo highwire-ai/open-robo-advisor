@@ -1,9 +1,9 @@
 from datetime import date
 from decimal import Decimal
 from openroboadvisor.ledger import Ledger
+from openroboadvisor.ledger.account import AccountType, Subaccount
 from openroboadvisor.ledger.asset import Currency, Security
 from openroboadvisor.ledger.entry import OpenAccount, Transaction, TransactionLeg
-from openroboadvisor.ledger.account import AccountType
 
 
 def test_basic_ledger() -> None:
@@ -161,3 +161,40 @@ def test_basic_ledger() -> None:
             entry_date=date(2022, 1, 7),
         ),
     )
+
+    bank_account = ledger.get_account(bank_account_id)
+    assert bank_account
+    assert bank_account.account_id == bank_account_id
+    assert bank_account.account_type == AccountType.CHECKING
+    assert 'pending' in bank_account.subaccounts, \
+        "Expected a pending subaccount ine external bank"
+    assert bank_account.subaccounts['pending'].assets == {
+        Currency('USD'): Decimal(-2000),
+    }
+
+    brokerage_account = ledger.get_account(brokerage_account_id)
+    assert brokerage_account
+    assert brokerage_account.account_id == brokerage_account_id
+    assert brokerage_account.account_type == AccountType.BROKERAGE
+    assert brokerage_account.subaccounts == {
+        'pending': Subaccount(
+            subaccount_id='pending',
+            assets={
+                Currency('USD'): Decimal(0),
+                Security('SPY'): Decimal(0),
+            },
+        ),
+        'settled': Subaccount(
+            subaccount_id='settled',
+            assets={
+                Currency('USD'): Decimal('2980.10'),
+                Security('SPY'): Decimal(0),
+            },
+        ),
+        'fees': Subaccount(
+            subaccount_id='fees',
+            assets={
+                Currency('USD'): Decimal('19.90'),
+            },
+        ),
+    }

@@ -28,10 +28,16 @@ class Balances:
 
     # TODO this method should probably be templated to 'T extends AssetType'
     def get_asset_quantities(self, asset_type: AssetType) -> dict[AssetType, Decimal]:
-        settled = self.subaccounts[SETTLED_SUBACCOUNT_ID].get_assets({asset_type})
+        settled = self.subaccounts.get(
+            SETTLED_SUBACCOUNT_ID,
+            Subaccount(SETTLED_SUBACCOUNT_ID),
+        ).get_assets({asset_type})
 
         if self.include_pending:
-            pending = self.subaccounts[PENDING_SUBACCOUNT_ID].get_assets({asset_type})
+            pending = self.subaccounts.get(
+                PENDING_SUBACCOUNT_ID,
+                Subaccount(PENDING_SUBACCOUNT_ID),
+            ).get_assets({asset_type})
 
             for pending_asset, pending_quantity in pending.items():
                 settled_quantity = settled.get(pending_asset, 0)
@@ -77,11 +83,18 @@ class Account:
         include_lots: bool = False,
     ) -> Balances:
         ledger_account = self.ledger.get_account(self.account_id)
+        assert ledger_account, \
+            f"No ledger account found (account_id='{self.account_id}')"
         return Balances(
             ledger_account.subaccounts,
             include_pending,
             include_lots,
         )
+
+    def get_fees(self) -> dict[AssetType, Decimal]:
+        account = self.ledger.get_account(self.account_id)
+        subaccount = account.subaccounts.get(FEES_SUBACCOUNT_ID)
+        return subaccount.assets if subaccount else {}
 
     def deposit(
         self,
@@ -129,6 +142,7 @@ class Account:
         )
 
     def withdraw(
+        self,
         amount: Decimal | int,
         currency: str = 'USD',
         transfer_date: date | None = None,
