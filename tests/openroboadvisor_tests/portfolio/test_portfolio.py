@@ -35,7 +35,6 @@ def test_basic_portfolio() -> None:
         fees=Decimal('9.95')
     )
 
-
     balances = account.get_balances()
     assert balances.cash.get(USD) == Decimal('2980.10'), "Expected a $2980.10 after selling SPY for a gain."
     assert balances.securities.get(SPY) == 0, "All SPY shares were sold, but quantity isn't empty."

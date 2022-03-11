@@ -22,9 +22,13 @@ class AccountType(Enum):
 
 
 class Subaccount:
-    def __init__(self, subaccount_id: str) -> None:
+    def __init__(
+        self,
+        subaccount_id: str,
+        assets: dict[AssetType, Decimal] | None = None,
+    ) -> None:
         self.subaccount_id = subaccount_id
-        self.assets: dict[AssetType, Decimal] = {}
+        self.assets: dict[AssetType, Decimal] = assets or {}
 
     def inc(self, quantity: Decimal | int, asset_type: AssetType) -> None:
         old_asset_quantity = self.assets.get(asset_type, 0)
@@ -33,11 +37,20 @@ class Subaccount:
 
     def get_assets(
         self,
-        types: set[AssetType] = {Currency, Security}
+        types: set[AssetType] = {Currency, Security},
     ) -> dict[AssetType, Decimal]:
         return {
             k: v for k, v in self.assets.items() if type(k) in types
         }
+
+    def __eq__(self, another) -> None:
+        return \
+            isinstance(another, type(self)) and \
+            self.subaccount_id == another.subaccount_id and \
+            self.assets == another.assets
+
+    def __repr__(self) -> str:
+        return f'{type(self).__name__}({repr(self.subaccount_id)}, {repr(self.assets)})'
 
 
 class Account:

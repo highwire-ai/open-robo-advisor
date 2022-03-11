@@ -16,4 +16,8 @@ def test_single_account() -> None:
     assert dividends_subaccount == account.subaccount("Dividends")
 
     settled_subaccount.inc(10, Currency('USD'))
-    assert 10 == settled_subaccount.assets[Currency('USD')]
+    settled_subaccount_assets = settled_subaccount.get_assets()
+
+    assert settled_subaccount_assets == {
+        Currency('USD'): 10
+    }

@@ -1,5 +1,6 @@
 from decimal import Decimal
 from openroboadvisor.advisor.simple_advisor import SimpleAdvisor
+from openroboadvisor.advisor.suggestion import Buy, Sell
 from openroboadvisor.ledger.asset import Currency, Security
 from openroboadvisor.portfolio import Portfolio
 
@@ -27,15 +28,14 @@ def test_simple_advisor():
         fees=Decimal('9.95'),
     )
 
-    # TODO assert account state
-    """
-    Account state:
+    balances = account.get_balances()
 
-    USD=884.59
-    VTI=1000 (4.5177 shares)
-    ITOT=95.51 (1 share)
-    fees=19.9
-    """
+    assert len(balances.cash) == 1, "Expected just USD"
+    assert len(balances.securities) == 2, "Expected VTI and ITOT"
+    assert balances.cash.get(Currency('USD')) == Decimal('884.59'), "Expected 884.59 USD cash balance"
+    assert balances.securities.get(Security('VTI')) == Decimal('4.5177'), "Expected 4.5177 VTI shares"
+    assert balances.securities.get(Security('ITOT')) == Decimal(1), "Expected 1 ITOT share"
+    assert account.get_fees().get(Currency('USD')) == Decimal('19.9'), "Expected 19.90 in fees"
 
     account_targets = {
         ACCOUNT_ID: {
@@ -64,34 +64,15 @@ def test_simple_advisor():
         quotes=quotes,
     )
 
-    suggestions = advisor.get_suggestions()
+    suggestions = advisor.get_suggestions().get(ACCOUNT_ID)
+    sorted_suggestions = sorted(suggestions, key=lambda s: s.asset_type.symbol)
 
-    # TODO assert suggestions and balances
-    """
-    Total balance: 1,980.279709
-
-    USD=884.59
-    VTI=999.179709 (4.5177 shares)
-    ITOT=96.51 (1 share)
-
-    Target state:
-
-    USD=39.60559418 
-    VTI=891.12586905
-    VEA=297.04195635
-    VWO=297.04195635
-    VIG=178.22517381
-    VTEB=277.23915926
-    """
-
-    import pprint
-    pprint.pprint(suggestions)
-    """
-    {'My Fidelity Account': [Sell(asset_type=Currency('USD'), amount=Decimal('844.98440582')),
-                          Sell(asset_type=Security('VTI'), amount=Decimal('108.05383995')),
-                          Sell(asset_type=Security('ITOT'), amount=Decimal('96.510000')),
-                          Buy(asset_type=Security('VEA'), amount=Decimal('297.04195635')),
-                          Buy(asset_type=Security('VWO'), amount=Decimal('297.04195635')),
-                          Buy(asset_type=Security('VIG'), amount=Decimal('178.22517381')),
-                          Buy(asset_type=Security('VTEB'), amount=Decimal('277.23915926'))]}
-    """
+    assert sorted_suggestions == [
+        Sell(asset_type=Security('ITOT'), amount=Decimal('96.510000')),
+        Sell(asset_type=Currency('USD'), amount=Decimal('844.98440582')),
+        Buy(asset_type=Security('VEA'), amount=Decimal('297.04195635')),
+        Buy(asset_type=Security('VIG'), amount=Decimal('178.22517381')),
+        Buy(asset_type=Security('VTEB'), amount=Decimal('277.23915926')),
+        Sell(asset_type=Security('VTI'), amount=Decimal('108.05383995')),
+        Buy(asset_type=Security('VWO'), amount=Decimal('297.04195635')),
+    ]

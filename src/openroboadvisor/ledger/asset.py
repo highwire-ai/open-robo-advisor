@@ -10,10 +10,9 @@ class AssetType:
         self.symbol = symbol
 
     def __eq__(self, another) -> None:
-        return (
-            isinstance(another, type(self)) and
+        return \
+            isinstance(another, type(self)) and \
             self.symbol == another.symbol
-        )
 
     def __hash__(self) -> None:
         return hash(self.symbol)
@@ -41,10 +40,9 @@ class Security(AssetType):
         return Security(self.symbol)
 
     def __eq__(self, another):
-        return (
-            super().__eq__(another) and
-            self.lot == another.lot,
-        )
+        return \
+            super().__eq__(another) and \
+            self.lot == another.lot
 
     def __hash__(self):
         return hash((
