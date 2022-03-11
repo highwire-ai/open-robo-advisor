@@ -1,16 +1,20 @@
-# Open Robo-Advisor :robot:
+# Open Robo-Advisor
 
 Open Robo-Advisor is a flexible robo-advisor library written in Python.
 
-* **Works with any asset**\
+* 💪 **Works with any asset**\
   ETFs, mutual funds, stocks, crypto, bonds, ...
-* **Supports asset targeting**\
+
+* 🎯 **Supports asset targeting**\
   10% USD, 20% VXUS, 70% VTI
-* **Understands asset class targeting**\
+
+* 📦 **Understands asset class targeting**\
   5% cash, 5% crypto, 20% foreign stock, 70% domestic stock
-* **Handles multiple currencies**\
+
+* 💰 **Handles multiple currencies**\
   USD, CAD, BTC, ...
-* **Complete transaction history**\
+
+* 📖 **Complete transaction history**\
   In-memory double-entry bookkeeping ledger
 
 ## Quickstart
