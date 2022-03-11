@@ -75,13 +75,12 @@ suggestions = advisor.get_suggestions()
 Suggestions look like this:
 
 ```
-{'My Fidelity Account': [Sell(asset_type=Currency('USD'), amount=Decimal('844.98440582')),
-                        Sell(asset_type=Security('VTI'), amount=Decimal('108.05383995')),
-                        Sell(asset_type=Security('ITOT'), amount=Decimal('96.510000')),
-                        Buy(asset_type=Security('VEA'), amount=Decimal('297.04195635')),
-                        Buy(asset_type=Security('VWO'), amount=Decimal('297.04195635')),
-                        Buy(asset_type=Security('VIG'), amount=Decimal('178.22517381')),
-                        Buy(asset_type=Security('VTEB'), amount=Decimal('277.23915926'))]}
+{'My Fidelity Account': [Sell(asset_type=Currency('USD'), amount=Decimal('950.26540582')),
+                         Sell(asset_type=Security('VTI'), amount=Decimal('104.02633995')),
+                         Buy(asset_type=Security('VEA'), amount=Decimal('298.38445635')),
+                         Buy(asset_type=Security('VWO'), amount=Decimal('298.38445635')),
+                         Buy(asset_type=Security('VIG'), amount=Decimal('179.03067381')),
+                         Buy(asset_type=Security('VTEB'), amount=Decimal('278.49215926'))]}
 ```
 
 ## Advisors
