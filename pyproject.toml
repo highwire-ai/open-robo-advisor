@@ -10,7 +10,7 @@ requires-python = ">=3.10"
 license = {text = "MIT"}
 
 [project.urls]
-Homepage = ""
+Homepage = "https://github.com/highwire-ai/open-robo-advisor"
 
 [project.optional-dependencies]
 [tool.pdm]
@@ -19,6 +19,7 @@ dev = [
     "mypy==0.931",
     "pytest>=7.0.1",
     "flake8==4.0.1",
+    "twine==3.8.0",
 ]
 
 [build-system]
