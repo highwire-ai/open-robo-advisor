@@ -1,4 +1,4 @@
-# Open Robo-Advisor
+## Open Robo-Advisor
 
 Open Robo-Advisor is a flexible robo-advisor library written in Python.
 
@@ -17,7 +17,7 @@ Open Robo-Advisor is a flexible robo-advisor library written in Python.
 * 📖 **Complete transaction history**\
   Backed by an in-memory double-entry bookkeeping ledger
 
-## Quickstart
+### Quickstart
 
 Install open robo-advisor:
 
@@ -98,18 +98,18 @@ Suggestions look like this:
                          Buy(asset_type=Security('VTEB'), amount=Decimal('278.49215926'))]}
 ```
 
-## Advisors
+### Advisors
 
 Open Robo-Advisor has two advisors:
 
 * [SimpleAdvisor](https://github.com/highwire-ai/open-robo-advisor/blob/main/src/openroboadvisor/advisor/simple_advisor.py)
 * [AssetClassAdvisor](https://github.com/highwire-ai/open-robo-advisor/blob/main/src/openroboadvisor/advisor/asset_class_advisor.py)
 
-### SimpleAdvisor
+#### SimpleAdvisor
 
 SimpleAdvisor allows developers to set percentage-based targets for specific assets (e.g. 10% USD, 20% VXUS and 70% VTI). SimpleAdvisor compares the asset targets to the holdings in a portfolio, and make trade suggestions to rebalance.
 
-### AssetClassAdvisor
+#### AssetClassAdvisor
 
 AssetClassAdvisor is similar to SimpleAdvisor, except that percent-based targets are set for asset classes (e.g. 10% cash, 20% foreign stock, 70% US stock). AssetClassAdvisor compares the asset class targets to the holdings in a portfolio and makes trade suggestions to keep the portfolio in balance.
 
