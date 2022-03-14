@@ -19,6 +19,12 @@ Open Robo-Advisor is a flexible robo-advisor library written in Python.
 
 ## Quickstart
 
+Install open robo-advisor:
+
+```
+pip install open-robo-advisor
+```
+
 Start by creating a portfolio and adding an account to it.
 
 ```
