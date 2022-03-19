@@ -2,6 +2,12 @@
 
 Some notes for developers.
 
+### Install Dependencies
+
+```
+pdm install
+```
+
 ### Testing
 
 ```
