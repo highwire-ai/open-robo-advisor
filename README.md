@@ -75,7 +75,7 @@ quotes = {
 }
 ```
 
-Instantiate the advisor and get its suggestions. This example uses SimpleAdvisor, which will always 
+Instantiate the advisor and get its suggestions.
 
 ```
 advisor = SimpleAdvisor(
