@@ -53,7 +53,7 @@ def test_asset_class_advisor() -> None:
     assert len(balances.cash) == 1, "Expected just USD"
     assert len(balances.securities) == 2, "Expected VTI and ITOT"
     assert balances.cash.get(Currency('USD')) == Decimal('884.59'), "Expected 884.59 USD cash balance"
-    assert balances.securities.get(Security('SPY')) == Decimal('2.0933'), "Expected 4.5177 SPY shares"
+    assert balances.securities.get(Security('SPY')) == Decimal('2.0933'), "Expected 2.0933 SPY shares"
     assert balances.securities.get(Security('ITOT')) == Decimal(1), "Expected 1 ITOT share"
     assert account.get_fees().get(Currency('USD')) == Decimal('19.9'), "Expected 19.90 in fees"
 
